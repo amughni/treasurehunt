@@ -18,7 +18,7 @@ public class InstructionsParser {
 
         if (instructionsFile != null) {
             try {
-                instructionList = new ArrayList<>();
+                instructionList = new ArrayList<Instruction>();
 
                 Scanner lineScanner = new Scanner(instructionsFile);
 
@@ -108,14 +108,12 @@ public class InstructionsParser {
     }
 
     private Mode parseMode(String strMode) {
-        switch (strMode) {
-            case "Walk": return new OnFoot(OnFoot.WALK);
-            case "Run": return new OnFoot(OnFoot.RUN);
-            case "Horse trot": return new Horse(Horse.TROT);
-            case "Horse gallop": return new Horse(Horse.GALLOP);
-            case "Elephant ride": return new Elephant();
-            default: return new OnFoot(OnFoot.WALK);
-        }
+        if (strMode.equalsIgnoreCase("Walk")) {return new OnFoot(OnFoot.WALK);}
+        if (strMode.equalsIgnoreCase("Run")) {return new OnFoot(OnFoot.RUN);}
+        if (strMode.equalsIgnoreCase("Horse trot")) {return new Horse(Horse.TROT);}
+        if (strMode.equalsIgnoreCase("Horse gallop")) {return new Horse(Horse.GALLOP);}
+        if (strMode.equalsIgnoreCase("Elephant ride")) {return new Elephant();}
+        else {return new OnFoot(OnFoot.WALK);}
     }
 
     private File verifyAndGetFile(String fileName) {

@@ -27,16 +27,20 @@ public class OnFoot extends Mode {
 
     @Override
     public Point travel(Point location, Instruction instruction) {
-        long distance = speed * TimeUnit.MILLISECONDS.toHours(instruction.getDurationMillis()) ;
+        double x = location.getX();
+        double y = location.getY();
+        Direction direction = instruction.getDirection();
+        long time = TimeUnit.MILLISECONDS.toHours(instruction.getDurationMillis());
+        long distance = speed * time;
 
-        /*Formula Chart
-        * N: Y+ 90
-        * S: Y- 90
-        * E: X+ 0
-        * W: x- 0
-        * NE: Y+X+
-        * */
+        //Calculating "coordinate distance" ratio based on direction angle
+        // Example: In case of north direction cos of 90 is 0, so no horizontal movement and
+        // sin of 90 is 1, so full vertical movement
+        double xRatio = Math.cos(Math.toRadians(direction.getAngle()));
+        double yRatio = Math.sin(Math.toRadians(direction.getAngle()));
+        x += (xRatio * distance);
+        y += (yRatio * distance);
 
-        return new Point(location.getX() + distance,0);
+        return new Point(x,y);
     }
 }
