@@ -15,8 +15,8 @@ public class Main {
         }
 
         String fileName = args[0];
-
-        List<Instruction> instructionList = InstructionsParser.parseInstructions(fileName);
+        InstructionsParser parser = new InstructionsParser();
+        List<Instruction> instructionList = parser.parseInstructions(fileName);
 
         if (instructionList == null) {
             System.err.println("Instructions couldn't be parsed. Exiting...");

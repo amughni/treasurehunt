@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class InstructionsParser {
-    public static List<Instruction> parseInstructions(String fileName) {
+    public List<Instruction> parseInstructions(String fileName) {
         List<Instruction> instructionList = null;
 
         File instructionsFile = verifyAndGetFile(fileName);
@@ -55,15 +55,15 @@ public class InstructionsParser {
         return null;
     }
 
-    private static Direction parseDirection(String strDirection) {
+    private Direction parseDirection(String strDirection) {
         return Direction.getDirectionByCode(strDirection);
     }
 
     /**
      *This method normalize the duration string so that any variations may be parsed
-     * TODO: Initial assumption of exempting days, weeks, months, years, etc.
+     * TODO: Add replacall for days, weeks, months, years, etc.
      */
-    private static StringBuilder normalizeDuration(String strDuration) {
+    private StringBuilder normalizeDuration(String strDuration) {
         //normalize hours
         strDuration = strDuration.replaceAll
                 ("hours", "h").replaceAll
@@ -86,7 +86,7 @@ public class InstructionsParser {
         return new StringBuilder(strDuration);
     }
 
-    private static long parseDuration(String strDuration) {
+    private long parseDuration(String strDuration) {
         String hour, min, sec;
 
         StringBuilder duration = normalizeDuration(strDuration);
@@ -103,13 +103,12 @@ public class InstructionsParser {
         }
         catch (ParseException pe) {
             System.err.println("Invalid time format.");
-            //TODO: log exception
         }
 
         return 0;
     }
 
-    private static String getUnit(StringBuilder duration, String unit) {
+    private String getUnit(StringBuilder duration, String unit) {
         String value = "00";
         String[] split = duration.toString().split(unit);
         if(split.length>0) {
@@ -120,7 +119,7 @@ public class InstructionsParser {
         return value;
     }
 
-    private static Mode parseMode(String strMode) {
+    private Mode parseMode(String strMode) {
         switch (strMode) {
             case "Walk": return new OnFoot(OnFoot.WALK);
             case "Run": return new OnFoot(OnFoot.RUN);
@@ -131,7 +130,7 @@ public class InstructionsParser {
         }
     }
 
-    private static File verifyAndGetFile(String fileName) {
+    private File verifyAndGetFile(String fileName) {
         if (fileName == null || fileName.trim().isEmpty()) {
             System.err.println("No filename provided");
 
