@@ -13,17 +13,12 @@ public class Horse extends Mode {
     public Point trot(Point location, Instruction instruction) {
         speed = TROT;
 
-        return travel(location, instruction);
+        return move(location, instruction);
     }
 
     public Point gallop(Point location, Instruction instruction) {
         speed = GALLOP;
 
-        return travel(location, instruction);
-    }
-
-    @Override
-    public Point travel(Point location, Instruction instruction) {
-        return new Point(0,0);
+        return move(location, instruction);
     }
 }

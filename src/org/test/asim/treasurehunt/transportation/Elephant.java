@@ -12,13 +12,13 @@ public class Elephant extends Mode {
     }
 
     @Override
-    public Point travel(Point location, Instruction instruction) {
+    public Point move(Point location, Instruction instruction) {
         return new Point(0,0);
     }
 
     public Point ride(Point location, Instruction instruction) {
         speed = WALK;
 
-        return travel(location, instruction);
+        return move(location, instruction);
     }
 }

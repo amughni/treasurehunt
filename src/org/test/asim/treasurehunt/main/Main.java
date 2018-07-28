@@ -33,7 +33,7 @@ public class Main {
         Point currentPosition = new Point(0d, 0d);
 
         for (Instruction instruction: instructionList) {
-            currentPosition = instruction.getMode().travel(currentPosition, instruction);
+            currentPosition = instruction.getMode().move(currentPosition, instruction);
         }
 
         double distance = Math.hypot(currentPosition.getX() - startingPoint.getX(), currentPosition.getY() - startingPoint.getY());
