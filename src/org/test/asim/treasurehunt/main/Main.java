@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         args = new String[1];
 
-        args[0] = "C:\\Users\\sah_r\\Desktop\\Instructions.txt";
+        args[0] = "C:\\Asim\\Instructions.txt";
 
         if (args.length == 0) {
             System.err.println("No filename provided");
@@ -38,6 +38,15 @@ public class Main {
 
         double distance = Math.hypot(currentPosition.getX() - startingPoint.getX(), currentPosition.getY() - startingPoint.getY());
 
-        System.out.println(currentPosition.getY() + " miles to the north, " + currentPosition.getX() + " miles to the east. " + distance + " miles away from the starting point!");
+        String yDirection = "north";
+        String xDirection = "east";
+        if(currentPosition.getX() < startingPoint.getX())
+            xDirection = "west";
+        if(currentPosition.getY() < startingPoint.getY())
+            yDirection = "south";
+
+        System.out.println(currentPosition.getY() + " miles to the " + yDirection + ", " +
+                currentPosition.getX() + " miles to the " + xDirection + ". " +
+                distance + " miles away from the starting point!");
     }
 }
