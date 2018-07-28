@@ -8,6 +8,10 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        args = new String[1];
+
+        args[0] = "C:\\Users\\sah_r\\Desktop\\Instructions.txt";
+
         if (args.length == 0) {
             System.err.println("No filename provided");
 
@@ -23,12 +27,17 @@ public class Main {
 
             return;
         }
+
         Point startingPoint = new Point(0d, 0d);
 
+        Point currentPosition = new Point(0d, 0d);
+
         for (Instruction instruction: instructionList) {
-            startingPoint = instruction.getMode().travel(startingPoint, instruction);
+            currentPosition = instruction.getMode().travel(currentPosition, instruction);
         }
 
-        Point endingPoint = startingPoint;
+        double distance = Math.hypot(currentPosition.getX() - startingPoint.getX(), currentPosition.getY() - startingPoint.getY());
+
+        System.out.println(currentPosition.getY() + " miles to the north, " + currentPosition.getX() + " miles to the east. " + distance + " miles away from the starting point!");
     }
 }

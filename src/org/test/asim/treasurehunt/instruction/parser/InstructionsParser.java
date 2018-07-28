@@ -5,13 +5,10 @@ import org.test.asim.treasurehunt.transportation.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class InstructionsParser {
     public List<Instruction> parseInstructions(String fileName) {
@@ -27,16 +24,17 @@ public class InstructionsParser {
 
                 while (lineScanner.hasNextLine()) {
                     Scanner instructionScanner = new Scanner(lineScanner.nextLine());
+                    instructionScanner.useDelimiter(",");
 
-                    String strMode = instructionScanner.next();
+                    String strMode = instructionScanner.next().trim();
 
                     Mode mode = parseMode(strMode);
 
-                    String strDuration = instructionScanner.next();
+                    String strDuration = instructionScanner.next().trim();
 
                     long durationMillis = parseDuration(strDuration);
 
-                    String strDirection = instructionScanner.next();
+                    String strDirection = instructionScanner.next().trim();
 
                     Direction direction = parseDirection(strDirection);
 
@@ -63,7 +61,7 @@ public class InstructionsParser {
      *This method normalize the duration string so that any variations may be parsed
      * TODO: Add replacall for days, weeks, months, years, etc.
      */
-    private StringBuilder normalizeDuration(String strDuration) {
+    private String normalizeDuration(String strDuration) {
         //normalize hours
         strDuration = strDuration.replaceAll
                 ("hours", "h").replaceAll
@@ -83,40 +81,30 @@ public class InstructionsParser {
                 ("second", "s").replaceAll
                 ("secs", "s").replaceAll
                 ("sec", "s");
-        return new StringBuilder(strDuration);
+
+        return strDuration;
     }
 
     private long parseDuration(String strDuration) {
-        String hour, min, sec;
+        strDuration = normalizeDuration(strDuration);
 
-        StringBuilder duration = normalizeDuration(strDuration);
+        long duration = 0;
 
-        hour = getUnit(duration, "h");
-        min = getUnit(duration, "m");
-        sec = getUnit(duration, "s");
+        String [] parts = strDuration.split("[ \\t]+");
 
-        DateFormat format = new SimpleDateFormat("HH:mm:ss");
-
-        try {
-            Date date = format.parse(hour + ":" + min + ":" + sec);
-            return date.getTime();
+        if (parts.length % 2 == 0) {
+            for (int i = 0; i < parts.length; i += 2) {
+                if ("h".equals(parts[i + 1])) {
+                    duration += TimeUnit.HOURS.toMillis(Integer.parseInt(parts[i]));
+                } else if ("m".equals(parts[i + 1])) {
+                    duration += TimeUnit.MINUTES.toMillis(Integer.parseInt(parts[i]));
+                } else if ("s".equals(parts[i + 1])) {
+                    duration += TimeUnit.SECONDS.toMillis(Integer.parseInt(parts[i]));
+                }
+            }
         }
-        catch (ParseException pe) {
-            System.err.println("Invalid time format.");
-        }
 
-        return 0;
-    }
-
-    private String getUnit(StringBuilder duration, String unit) {
-        String value = "00";
-        String[] split = duration.toString().split(unit);
-        if(split.length>0) {
-            value = split[0];
-            if(split.length>1)
-                duration = new StringBuilder(split[1]);
-        }
-        return value;
+        return duration;
     }
 
     private Mode parseMode(String strMode) {

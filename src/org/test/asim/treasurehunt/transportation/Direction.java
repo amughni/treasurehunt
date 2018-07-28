@@ -7,6 +7,7 @@ public enum Direction {
     SOUTH_EAST ("SE", "South East"),
     SOUTH ("S", "South"),
     SOUTH_WEST ("SW", "South West"),
+    WEST("W", "West"),
     NORTH_WEST ("NW", "North West");
 
     private final String directionCode;
