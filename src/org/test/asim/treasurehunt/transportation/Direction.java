@@ -1,14 +1,14 @@
 package org.test.asim.treasurehunt.transportation;
 
 public enum Direction {
-    NORTH ("N", "North", 90.0),
-    NORTH_EAST ("NE", "North East", 45.0),
+    NORTH ("N", "north", 90.0),
+    NORTH_EAST ("NE", "north east", 45.0),
     EAST ("E", "East", 0.0),
-    SOUTH_EAST ("SE", "South East", 315.0),
+    SOUTH_EAST ("SE", "south east", 315.0),
     SOUTH ("S", "South", 270.0),
-    SOUTH_WEST ("SW", "South West", 225.0),
+    SOUTH_WEST ("SW", "south west", 225.0),
     WEST("W", "West", 180.0),
-    NORTH_WEST ("NW", "North West", 135.0);
+    NORTH_WEST ("NW", "north west", 135.0);
 
     private final String directionCode;
     private final String friendlyName;

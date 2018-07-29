@@ -2,16 +2,14 @@ package org.test.asim.treasurehunt.main;
 
 import org.test.asim.treasurehunt.instruction.Instruction;
 import org.test.asim.treasurehunt.instruction.parser.InstructionsParser;
+import org.test.asim.treasurehunt.transportation.Direction;
 import org.test.asim.treasurehunt.transportation.Point;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        args = new String[1];
-
-        args[0] = "C:\\Asim\\Instructions.txt";
-
         if (args.length == 0) {
             System.err.println("No filename provided");
 
@@ -35,18 +33,18 @@ public class Main {
         for (Instruction instruction: instructionList) {
             currentPosition = instruction.getMode().move(currentPosition, instruction);
         }
+        DecimalFormat dec = new DecimalFormat("#0.0");
+        double x = Math.abs(currentPosition.getX()) * 2.2369; //converting back mph
+        double y = Math.abs(currentPosition.getY()) * 2.2369; //converting back mph
 
-        double distance = Math.hypot(currentPosition.getX() - startingPoint.getX(), currentPosition.getY() - startingPoint.getY());
+        String yDirection = Direction.NORTH.getFriendlyName();
+        String xDirection = Direction.EAST.getFriendlyName();
+        if(x < startingPoint.getX())
+            xDirection = Direction.WEST.getFriendlyName();
+        if(y < startingPoint.getY())
+            yDirection = Direction.SOUTH.getFriendlyName();
 
-        String yDirection = "north";
-        String xDirection = "east";
-        if(currentPosition.getX() < startingPoint.getX())
-            xDirection = "west";
-        if(currentPosition.getY() < startingPoint.getY())
-            yDirection = "south";
-
-        System.out.println(currentPosition.getY() + " miles to the " + yDirection + ", " +
-                currentPosition.getX() + " miles to the " + xDirection + ". " +
-                distance + " miles away from the starting point!");
+        System.out.println(dec.format(y) + " miles to the " + yDirection + ", " +
+                dec.format(x) + " miles to the " + xDirection + ".");
     }
 }

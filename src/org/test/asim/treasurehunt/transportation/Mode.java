@@ -11,8 +11,9 @@ public abstract class Mode {
         double x = location.getX();
         double y = location.getY();
         Direction direction = instruction.getDirection();
-        long time = TimeUnit.MILLISECONDS.toHours(instruction.getDurationMillis());
-        long distance = speed * time;
+        long time = instruction.getDurationMillis();
+        double speedinmilli = speed * 0.447;
+        double distance = speedinmilli * time;
 
         //Calculating "coordinate distance" ratio based on direction angle
         // Example: In case of north direction cos of 90 is 0, so no horizontal movement and
